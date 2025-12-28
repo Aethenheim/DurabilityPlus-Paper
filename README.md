@@ -4,7 +4,9 @@ This hard fork will never support Spigot, as it relies on paper-api exclusive
 code. Spigot is a stagnant dying ecosystem and quite frankly people should move on to the paper api family when it comes to plugins.
 My opinions and whatever does not reflect that of the original author.
 
-Original description for DurabilityPlus below by MyceliumMind. It will be replaced with a new one later.
+Original description for DurabilityPlus below by MyceliumMind. It will be replaced with a new one later that reflects what this hard fork
+is to add/change.
+
 # DurabilityPlus
 
 DurabilityPlus is the **one-stop durability management plugin** for Spigot/Paper servers. 
