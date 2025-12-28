@@ -1,0 +1,35 @@
+name: DurabilityPlus
+main: com.durabilityplus.DurabilityPlusPlugin
+version: 1.2.1
+api-version: '1.21'
+softdepend: [ProtocolLib]
+
+commands:
+  durabilityplus:
+    aliases: [dp]
+    description: Manage DurabilityPlus settings and item durability
+    usage: |
+      /dp setmultiplier <value>
+      /dp add <amount>
+      /dp take <amount>
+      /dp set <remaining>
+      /dp repair
+      /dp repairall
+      /dp unbreakable <true|false>
+      /dp toggleunbreakable
+      /dp ping <on|off|toggle>
+      /dp autoprotection <on|off|toggle>
+      /dp reload
+    permission: durabilityplus.use
+
+permissions:
+  durabilityplus.use:
+    default: op
+  durabilityplus.edit:
+    default: op
+  durabilityplus.modify:
+    default: op
+  durabilityplus.bonus.*:
+    default: false
+  durabilityplus.ping:
+    default: true
