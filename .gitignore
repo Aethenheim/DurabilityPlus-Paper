@@ -3,7 +3,7 @@
 *.iml
 
 # Maven build output (plugin module only)
-.target/
+target/
 
 # Eclipse (just in case)
 .classpath
