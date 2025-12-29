@@ -1,0 +1,222 @@
+# ============================================================
+# DurabilityPlus-Paper — Main Configuration
+# ============================================================
+
+# Global durability multiplier. Vanilla is 1.0
+# Example: 2.0 = breaks twice as fast; 0.5 = breaks half as fast; 0 = never breaks.
+globalMultiplier: 1.0
+
+# If true, also apply multipliers to armor durability.
+includeArmor: true
+
+# Lore display of durability for held items and when items are damaged.
+lore:
+  enabled: true
+
+  mode: "NUMBER" # NUMBER | PERCENT
+  # Prefix helps us find/replace our own line.
+  prefix: "[D+]"
+  numberFormat: "{current}/{max}" # used when mode=NUMBER
+  percentFormat: "{percent}% ({current}/{max})" # used when mode=PERCENT
+  append: true
+
+# Per-item overrides by exact MATERIAL name or simple wildcard prefixes ("DIAMOND_*").
+# Takes precedence over globalMultiplier.
+# Example: DIAMOND_SWORD: 1.2, IRON_*: 0.8
+perItemMultipliers:
+  # "DIAMOND_SWORD": 1.2
+  # "DIAMOND_*": 1.1
+
+# Optional per-world overrides (applied after per-item).
+perWorldMultipliers:
+  # "world_nether": 1.5
+
+# Donor/permission bonus multipliers (applied last). The first matching permission found is used.
+# Grant a player "durabilityplus.bonus.gold" to apply the corresponding factor.
+donorBonuses:
+  # gold: 0.8
+  # platinum: 0.6
+
+
+# Elytra-specific settings (ability to nerf it)
+elytra:
+  multiplier: 2.0 # default multiplier for Elytra specifically
+  repairable: true # if false, block anvil repairs and mending on Elytra
+  
+# Scale Mending effectiveness globally.
+mending:
+  factor: 0.5 # 1.0 = vanilla, 0.5 = 50% effective, 0.0 = disabled
+
+# Performance & behavior tweaks
+performance:
+  cacheMaterialResolution: true
+  skipRedundantLoreUpdates: true  
+
+
+# --------------------------------------------------------------------
+# Degradation features — scale effectiveness as durability drops
+# All optional. If disabled, behavior matches simple durability only.
+# This allows you to scale the effectiveness of a given item based on its remaining durability
+# --------------------------------------------------------------------
+degradation:
+  enabled: false
+
+  # Outgoing damage scaling based on ATTACKING item's durability (curve only).
+  weaponDamage:
+    enabled: true
+    # Remaining durability % → damage multiplier (1.0 = normal).
+    # First matching threshold (<=) wins. Use strings as keys to keep YAML order stable.
+    curve:
+      "75": 1.00
+      "50": 0.85
+      "25": 0.70
+      "10": 0.50
+    # Optional per-item overrides (exact MATERIAL or wildcard like "DIAMOND_*").
+    perItem:
+      # "DIAMOND_SWORD":
+      # "75": 1.00
+      # "50": 0.90
+      # "25": 0.75
+      # "GOLD_*":
+      # "75": 0.95
+      # "50": 0.80
+      # "25": 0.60
+
+  # Incoming damage scaling based on DEFENDER's armor durability (curve only).
+  armorProtection:
+    enabled: true
+    # Average armor % → final damage TAKEN multiplier (>1.0 = take more damage).
+    curve:
+      "75": 1.00
+      "50": 1.10
+      "25": 1.25
+      "10": 1.50
+    # Optional per-piece overrides; final factor may average across pieces.
+    perItem:
+      # "NETHERITE_*":
+      # "75": 1.00
+      # "50": 1.05
+      # "25": 1.15
+
+  # Mining speed degradation
+  miningSpeed:
+    enabled: true
+    mode: "effect" # "effect"  -- next update will include another mode
+
+    # EFFECT MODE
+    effect:
+      style: "smooth" # Advise to keep this set to smooth as burst will be replaced soon with an animation based mode
+
+      # --- Burst (original behavior) ---
+      burst:
+        fatigueLevels: # remaining% -> Mining Fatigue level
+          "50": 1
+          "25": 2
+          "10": 3
+        durationTicks: 40 # how long the fatigue lasts per swing
+
+      # --- Smooth (new) ---
+      smooth:
+        minLevel: 1 # at high durability
+        maxLevel: 2 # at very low durability
+        minDurationTicks: 40 # at high durability
+        maxDurationTicks: 180 # at very low durability
+
+# --------------------------------------------------------------------
+# Wrong Tool Multiplier — extra wear when using the wrong tool
+# Both blocks & combat are independent toggles.
+# STACKS WITH PREVIOUS DURABILITY TWEAKS
+# --------------------------------------------------------------------
+wrongTool:
+  blocks:
+    enabled: true
+    multiplier: 2.0 # 1.0 = none; 2.0 = twice the wear when breaking blocks with the wrong tool
+  combat:
+    enabled: true
+    multiplier: 1.25 # extra wear when attacking with a non-weapon tool
+    treatAxeAsWeapon: true # true = swords AND axes count as proper weapons
+
+# Control duplicate Unbreakable display:
+hideVanillaUnbreakable: true # hide vanilla's tooltip, show only plugin line
+showPluginUnbreakableLine: true #show unbreakable in the D+ durability lore
+
+# Prevent items from breaking; mark as broken and keep them.
+autoProtect:
+  enabled: true
+  notifyOnUse: true
+  notifyMode: "chat" # actionbar | chat
+  
+# Custom sound when durability runs low (per-player toggle via /dp ping).
+lowDurabilityPing:
+  enabled: true
+  thresholdPercent: 5
+  sound: "ENTITY_EXPERIENCE_ORB_PICKUP" # Bukkit Sound enum
+  volume: 1.0
+  pitch: 2.0
+  cooldownSeconds: 10
+
+
+# --------------------------------------------------------------------
+# EXTRA FEATURES
+# All are optional and fully customizable
+# --------------------------------------------------------------------
+
+# Damages equipped items when in weather like rain or thunderstorm.
+weatherWear:
+  enabled: true
+  periodSeconds: 5
+  affectTools: true
+  affectArmor: true
+  exemptTiers: ["DIAMOND", "NETHERITE"] # Unaffected material tiers (prefixes)
+  materials:
+    tools: ["WOODEN", "STONE", "IRON", "GOLDEN"]
+    armor: ["LEATHER", "CHAINMAIL", "IRON", "GOLDEN"]
+    
+    
+    
+# Salvage utility will drop some portion of ingredients on item break   
+# Can even be configured with custom items!
+salvage:
+  enabled: true
+  alsoOnAutoProtect: false   #Toggle if item should still drop salvage if Auto Protect feature is enabled
+  dropCountMin: 1
+  dropCountMax: 2
+
+  # Highest priority: flexible, server-side matchers by item metadata
+  # (No other plugins required.)
+  matchers:   #Add your custom items here -- 3 different ways you can pick
+    # Example A: a specific model variant
+    - when:
+        material: "IRON_SWORD"
+        customModelData: 10101
+      drops: ["IRON_INGOT", "STICK"]
+
+    # Example B: any item whose display name contains a word
+    #- when:
+    #    nameContains: "Katana"
+    #  drops: ["IRON_INGOT", "STICK"]
+
+    # Example C: any item that has a lore line containing a phrase
+    #- when:
+    #    loreContains: "Relic"
+    #  drops: ["DIAMOND"]
+
+  # Optional: exact Material mappings (priority below matchers)
+  perItem:
+    BOW:      ["STICK", "STRING"]
+    CROSSBOW: ["STICK", "STRING", "IRON_INGOT"]
+    SHIELD:   ["OAK_PLANKS", "IRON_INGOT"]
+    SHEARS:   ["IRON_INGOT"]
+    ELYTRA:   ["PHANTOM_MEMBRANE"]
+
+  # Optional: tier/prefix fallback (e.g., DIAMOND_* → DIAMOND)
+  perTier:
+    WOODEN:    ["STICK", "OAK_PLANKS"]
+    STONE:     ["STICK", "COBBLESTONE"]
+    IRON:      ["STICK", "IRON_INGOT"]
+    GOLDEN:    ["STICK", "GOLD_INGOT"]
+    DIAMOND:   ["STICK", "DIAMOND"]
+    NETHERITE: ["STICK", "NETHERITE_SCRAP"]
+    LEATHER:   ["LEATHER"]
+    CHAINMAIL: ["IRON_INGOT"]
+    TURTLE:    ["SCUTE"]
