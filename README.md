@@ -1,5 +1,9 @@
 # DurabilityPlus-Paper
 Hard fork of DurabilityPlus by MyceliumMind, aimed at supporting folia and using paper api.
+Fork starts from version 1.2.1 of DurabilityPlus (+ contains my bugfix for broken status not being removed when repairing
+with anvil and grindstone, which would have been 1.2.2 of DurabilityPlus if the PR had been accepted).
+
+For my own peace of mind, versioning has been reset to 1.0.0 and will continue from there.
 This hard fork will never support Spigot, as it relies on paper-api exclusive 
 code. Spigot is a stagnant dying ecosystem and quite frankly people should move on to the paper api family when it comes to plugins.
 My opinions and whatever does not reflect that of the original author.

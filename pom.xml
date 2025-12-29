@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.durabilityplus</groupId>
-  <artifactId>durabilityplus</artifactId>
+  <groupId>com.aethenheim.plugins.durabilitypluspaper</groupId>
+  <artifactId>durabilitypluspaper</artifactId>
   <version>1.2.2</version>
   <packaging>jar</packaging>
 
@@ -15,10 +15,10 @@
   </properties>
 
   <repositories>
-    <repository>
-      <id>spigot-repo</id>
-      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    </repository>
+      <repository>
+          <id>papermc</id>
+          <url>https://repo.papermc.io/repository/maven-public/</url>
+      </repository>
     <repository>
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
@@ -27,10 +27,10 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.spigotmc</groupId>
-      <artifactId>spigot-api</artifactId>
-      <version>1.21.1-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
+        <groupId>io.papermc.paper</groupId>
+        <artifactId>paper-api</artifactId>
+        <version>1.21.11-R0.1-SNAPSHOT</version>
+        <scope>provided</scope>
     </dependency>
 
     <!-- Optional/soft: ProtocolLib for crack animation; provided by server if present -->

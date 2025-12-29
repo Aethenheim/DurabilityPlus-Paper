@@ -1,0 +1,14 @@
+# IntelliJ (repo root)
+.idea/
+*.iml
+
+# Maven build output (plugin module only)
+.target/
+
+# Eclipse (just in case)
+.classpath
+.project
+.settings/
+
+# OS junk
+.DS_Store
